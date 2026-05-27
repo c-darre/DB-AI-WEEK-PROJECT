@@ -7,10 +7,12 @@
         <div id="new_message_container" class="text-start">
           <%= simple_form_for [@chat, @message] do |f| %>
             <%= f.input :content, label: false, placeholder: "Ex: Peux-tu analyser les coutures de cette Jordan 4 ?" %>
-
+            <%= f.input :photo, as: :file %>
             <div class="d-flex justify-content-end mt-2">
               <%= f.button :submit, 'Lancer l\'analyse', class: 'btn btn-primary' %>
             </div>
+
+
           <% end %>
         </div>
       </div>

@@ -29,6 +29,7 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params)
     @message.chat = @chat
     @message.role = "user"
+    @message.photo.attach(params[:photo])
 
     if @message.save
       ruby_llm_chat = RubyLLM.chat(model: 'gpt-4o')
@@ -51,7 +52,7 @@ class MessagesController < ApplicationController
   private
 
   def message_params
-    params.require(:message).permit(:content)
+    params.require(:message).permit(:content, :photo)
   end
 
   def build_conversation_history
