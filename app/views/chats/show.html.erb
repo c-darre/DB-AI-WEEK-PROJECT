@@ -15,7 +15,7 @@
             <% elsif message.role == "assistant" %>
               <div class="d-flex justify-content-start mb-5">
                 <div class="p-3">
-                  <%= message.content %>
+                  <%= raw(render_markdown(message.content)) %>                </div>
                 </div>
               </div>
             <% end %>
