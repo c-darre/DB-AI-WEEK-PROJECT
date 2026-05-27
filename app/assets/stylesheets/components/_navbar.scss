@@ -1,12 +1,71 @@
-.navbar-lewagon {
+.sa-navbar {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(37, 99, 235, 0.12);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.sa-navbar__inner {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
   justify-content: space-between;
-  background: white;
 }
 
-.navbar-lewagon .navbar-collapse {
-  flex-grow: 0;
+.sa-navbar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #0f172a;
+  font-weight: 800;
+  font-size: 20px;
 }
 
-.navbar-lewagon .navbar-brand img {
+.sa-navbar__logo {
   width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #2563eb, #60a5fa);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.28);
+}
+
+.sa-navbar__links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.sa-navbar__link {
+  color: #475569;
+  text-decoration: none;
+  font-weight: 600;
+
+  &:hover {
+    color: #2563eb;
+  }
+}
+
+.sa-navbar__email {
+  color: #64748b;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .sa-navbar__inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .sa-navbar__links {
+    flex-wrap: wrap;
+  }
 }

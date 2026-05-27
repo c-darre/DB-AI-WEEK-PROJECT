@@ -1,1 +1,207 @@
-// Specific CSS for your home-page
+.sa-home {
+  min-height: calc(100vh - 72px);
+  background:
+    radial-gradient(circle at top right, rgba(59, 130, 246, 0.18), transparent 420px),
+    linear-gradient(135deg, #eff6ff 0%, #ffffff 45%, #dbeafe 100%);
+}
+
+.sa-hero {
+  min-height: calc(100vh - 72px);
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: 56px;
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+
+.sa-hero__content h1 {
+  font-size: clamp(42px, 6vw, 76px);
+  line-height: 0.95;
+  font-weight: 900;
+  letter-spacing: -0.06em;
+  color: #0f172a;
+  margin: 24px 0;
+}
+
+.sa-hero__content p {
+  max-width: 620px;
+  color: #475569;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.sa-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.sa-home__actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+.sa-btn {
+  border: 0;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-weight: 800;
+  transition: all 0.2s ease;
+}
+
+.sa-btn--lg {
+  padding: 14px 24px;
+  font-size: 16px;
+}
+
+.sa-btn--primary {
+  background: #2563eb;
+  color: white;
+  box-shadow: 0 14px 30px rgba(37, 99, 235, 0.3);
+
+  &:hover {
+    background: #1d4ed8;
+    color: white;
+    transform: translateY(-1px);
+  }
+}
+
+.sa-btn--secondary {
+  background: white;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+
+  &:hover {
+    background: #eff6ff;
+    color: #1e40af;
+  }
+}
+
+.sa-btn--ghost {
+  background: #eff6ff;
+  color: #1d4ed8;
+
+  &:hover {
+    background: #dbeafe;
+    color: #1e40af;
+  }
+}
+
+.sa-analysis-card {
+  margin-top: 32px;
+  max-width: 680px;
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(37, 99, 235, 0.12);
+  border-radius: 28px;
+  padding: 24px;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.08);
+}
+
+.sa-textarea {
+  border-radius: 22px !important;
+  border: 1px solid #bfdbfe !important;
+  background: #f8fbff !important;
+  padding: 18px !important;
+  resize: none;
+
+  &:focus {
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12) !important;
+  }
+}
+
+.sa-hero__visual {
+  display: flex;
+  justify-content: center;
+}
+
+.sa-sneaker-card {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  border-radius: 36px;
+  padding: 28px;
+  border: 1px solid rgba(37, 99, 235, 0.12);
+  box-shadow: 0 30px 80px rgba(37, 99, 235, 0.18);
+}
+
+.sa-sneaker-card__top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #64748b;
+  font-weight: 700;
+}
+
+.sa-status-dot {
+  width: 10px;
+  height: 10px;
+  background: #22c55e;
+  border-radius: 50%;
+  box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.12);
+}
+
+.sa-sneaker-card__shoe {
+  height: 260px;
+  margin: 24px 0;
+  border-radius: 28px;
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2563eb;
+  font-size: 96px;
+}
+
+.sa-score {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  strong {
+    display: block;
+    color: #0f172a;
+    font-size: 36px;
+    line-height: 1;
+  }
+
+  span {
+    color: #64748b;
+    font-weight: 600;
+  }
+}
+
+.sa-badge {
+  background: #dcfce7;
+  color: #15803d !important;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+@media (max-width: 992px) {
+  .sa-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .sa-hero__visual {
+    display: none;
+  }
+}// Specific CSS for your home-page

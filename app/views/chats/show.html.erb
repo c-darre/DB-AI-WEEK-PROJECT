@@ -1,34 +1,87 @@
-  <div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-8 text-center">
-      <h2 class="mb-4"><%= @chat.title || "Nouvelle discussion" %></h2>
+<div class="sa-chat-page">
+  <div class="container">
+    <div class="sa-chat-layout">
+      <aside class="sa-chat-sidebar">
+        <%= link_to chats_path, class: "sa-back-link" do %>
+          <i class="fa-solid fa-arrow-left"></i>
+          Historique
+        <% end %>
 
-      <div id="new_message_container" class="text-start">
-        <div id="messages">
+        <div class="sa-chat-summary">
+          <span class="sa-pill">
+            <i class="fa-solid fa-comments"></i>
+            Conversation IA
+          </span>
+
+          <h1><%= @chat.title.presence || "Nouvelle conversation" %></h1>
+
+          <p>
+            Pose une question, ajoute une photo et laisse SneakerAI analyser les détails.
+          </p>
+        </div>
+      </aside>
+
+      <main class="sa-chat-panel">
+        <div id="messages" class="sa-messages">
           <% @chat.messages.each do |message| %>
-            <% if message.role == "user" %>
-              <div class="d-flex justify-content-end mb-2">
-                <div class="bg-white p-3 rounded-pill">
-                  <%= message.content %>
-                </div>
+            <% is_user = message.role == "user" %>
+
+            <div class="sa-message <%= is_user ? "sa-message--user" : "sa-message--assistant" %>">
+              <div class="sa-message__avatar">
+                <% if is_user %>
+                  <i class="fa-solid fa-user"></i>
+                <% else %>
+                  <span>S</span>
+                <% end %>
               </div>
-            <% elsif message.role == "assistant" %>
-              <div class="d-flex justify-content-start mb-5">
-                <div class="p-3">
-                  <%= message.content %>
-                </div>
+
+              <div class="sa-message__bubble">
+                <% if message.respond_to?(:photo) && message.photo.attached? %>
+                  <%= image_tag message.photo, class: "sa-message__image" %>
+                <% end %>
+
+                <p><%= simple_format(message.content) %></p>
               </div>
-            <% end %>
+            </div>
           <% end %>
         </div>
-        <%= simple_form_for [@chat, @message] do |f| %>
-          <%= f.input :content, label: false, placeholder: "Ex: Peux-tu analyser les coutures de cette Jordan 4 ?" %>
 
-          <div class="d-flex justify-content-end mt-2">
-            <%= f.button :submit, 'Lancer l\'analyse', class: 'btn btn-primary' %>
-          </div>
-        <% end %>
-      </div>
+        <div class="sa-chat-composer">
+          <%= simple_form_for [@chat, @message], html: { multipart: true } do |f| %>
+            <%= f.input :content,
+              as: :text,
+              label: false,
+              placeholder: "Ex: Analyse les coutures, le logo ou l’étiquette...",
+              input_html: {
+                rows: 3,
+                class: "sa-composer-textarea"
+              } %>
+
+            <% if @message.respond_to?(:photo) %>
+              <label class="sa-upload-zone">
+                <i class="fa-solid fa-image"></i>
+                <span>Ajouter une photo</span>
+                <%= f.input :photo,
+                  as: :file,
+                  label: false,
+                  input_html: { class: "d-none" },
+                  wrapper_html: { class: "m-0" } %>
+              </label>
+            <% end %>
+
+            <div class="sa-composer-actions">
+              <span class="sa-composer-hint">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                Analyse IA des détails visuels
+              </span>
+
+              <%= f.button :submit,
+                "Lancer l'analyse",
+                class: "sa-btn sa-btn--primary" %>
+            </div>
+          <% end %>
+        </div>
+      </main>
     </div>
   </div>
 </div>

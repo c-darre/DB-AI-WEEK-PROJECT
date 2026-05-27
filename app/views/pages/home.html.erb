@@ -1,30 +1,80 @@
-<% if user_signed_in? %>
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-8 text-center">
-        <h2 class="mb-4">Que souhaitez-vous faire authentifier aujourd'hui ?</h2>
+<div class="sa-home">
+  <section class="container sa-hero">
+    <div class="sa-hero__content">
+      <div class="sa-pill">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        AI Sneaker Authentication
+      </div>
 
-        <div id="new_message_container" class="text-start">
-          <%= simple_form_for [@chat, @message] do |f| %>
-            <%= f.input :content, label: false, placeholder: "Ex: Peux-tu analyser les coutures de cette Jordan 4 ?" %>
+      <% if user_signed_in? %>
+        <h1>Analyse tes sneakers avec l’IA</h1>
 
-            <div class="d-flex justify-content-end mt-2">
-              <%= f.button :submit, 'Lancer l\'analyse', class: 'btn btn-primary' %>
+        <p>
+          Envoie une question ou une photo de ta paire. SneakerAI t’aide à repérer
+          les détails importants : coutures, logo, shape, boîte, étiquette et finitions.
+        </p>
+
+        <div class="sa-analysis-card">
+          <%= simple_form_for @message, url: chats_path, method: :post do |f| %>
+            <%= f.input :content,
+              as: :text,
+              label: false,
+              placeholder: "Ex: Peux-tu analyser les coutures de cette Jordan 4 ?",
+              input_html: {
+                rows: 5,
+                class: "sa-textarea"
+              } %>
+
+            <div class="sa-home__actions">
+              <%= f.button :submit,
+                "Lancer l'analyse",
+                class: "sa-btn sa-btn--primary sa-btn--lg" %>
+
+              <%= link_to "Voir l'historique",
+                chats_path,
+                class: "sa-btn sa-btn--secondary sa-btn--lg" %>
             </div>
           <% end %>
         </div>
+      <% else %>
+        <h1>Authentifie tes sneakers plus intelligemment</h1>
+
+        <p>
+          SneakerAI t’aide à analyser une paire, poser des questions et garder
+          l’historique de tes conversations d’authentification.
+        </p>
+
+        <div class="sa-home__actions">
+          <%= link_to "Commencer",
+            new_user_registration_path,
+            class: "sa-btn sa-btn--primary sa-btn--lg" %>
+
+          <%= link_to "Se connecter",
+            new_user_session_path,
+            class: "sa-btn sa-btn--secondary sa-btn--lg" %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="sa-hero__visual">
+      <div class="sa-sneaker-card">
+        <div class="sa-sneaker-card__top">
+          <span class="sa-status-dot"></span>
+          <span>AI analysis</span>
+        </div>
+
+        <div class="sa-sneaker-card__shoe">
+          <i class="fa-solid fa-shoe-prints"></i>
+        </div>
+
+        <div class="sa-score">
+          <div>
+            <strong>94%</strong>
+            <span>Authenticity score</span>
+          </div>
+          <span class="sa-badge">Likely authentic</span>
+        </div>
       </div>
     </div>
-  </div>
-
-<% else %>
-  <div class="container mt-5 text-center">
-    <h1 class="display-4 fw-bold">Bienvenue sur SneakerAI</h1>
-    <p class="lead mt-3">L'Intelligence Artificielle au service de l'authentification de vos sneakers.</p>
-
-    <div class="mt-4">
-      <%= link_to "Se connecter", new_user_session_path, class: "btn btn-primary btn-lg mx-2" %>
-      <%= link_to "Créer un compte", new_user_registration_path, class: "btn btn-outline-primary btn-lg mx-2" %>
-    </div>
-  </div>
-<% end %>
+  </section>
+</div>

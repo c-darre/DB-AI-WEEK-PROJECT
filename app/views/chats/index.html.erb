@@ -1,25 +1,69 @@
-<div class="container mt-5">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Mes anciennes conversations</h2>
-    <%= button_to "Ouvrir une nouvelle conversation", chats_path, method: :post, class: "btn btn-primary" %>
-  </div>
+<div class="sa-history-page">
+  <div class="container">
+    <div class="sa-history-header">
+      <div>
+        <span class="sa-pill">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          Historique
+        </span>
 
-  <% if @chats.empty? %>
-    <div class="alert alert-light">
-      Vous n'avez pas encore d'historique.
-    </div>
-  <% else %>
-    <ul class="list-group">
-      <% @chats.each do |chat| %>
-        <li class="list-group-item d-flex justify-content-between align-items-center mb-2 shadow-sm rounded">
-          <div>
-            <h5 class="mb-1"><%= chat.title || "Nouvelle conversation" %></h5>
-            <small class="text-muted">Créé le <%= chat.created_at.strftime("%d/%m/%Y à %H:%M") %></small>
-          </div>
+        <h1>Tes conversations SneakerAI</h1>
 
-          <%= link_to "Ouvrir", chat_path(chat), class: "btn btn-outline-primary btn-sm" %>
-        </li>
+        <p>
+          Retrouve tes anciennes analyses et reprends une conversation quand tu veux.
+        </p>
+      </div>
+
+      <%= button_to chats_path,
+        method: :post,
+        class: "sa-btn sa-btn--primary sa-btn--lg" do %>
+        <i class="fa-solid fa-plus"></i>
+        Nouvelle analyse
       <% end %>
-    </ul>
-  <% end %>
+    </div>
+
+    <% if @chats.any? %>
+      <div class="sa-history-grid">
+        <% @chats.each do |chat| %>
+          <div class="sa-history-card">
+            <div class="sa-history-card__icon">
+              <i class="fa-solid fa-comments"></i>
+            </div>
+
+            <div class="sa-history-card__content">
+              <h2><%= chat.title.presence || "Nouvelle conversation" %></h2>
+
+              <p>
+                Créée le
+                <%= l(chat.created_at, format: :short) rescue chat.created_at.strftime("%d/%m/%Y %H:%M") %>
+              </p>
+            </div>
+
+            <%= link_to chat_path(chat), class: "sa-history-card__link" do %>
+              Ouvrir
+              <i class="fa-solid fa-arrow-right"></i>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="sa-empty-state">
+        <div class="sa-empty-state__icon">
+          <i class="fa-solid fa-shoe-prints"></i>
+        </div>
+
+        <h2>Aucune conversation pour le moment</h2>
+
+        <p>
+          Lance ta première analyse IA pour commencer à construire ton historique.
+        </p>
+
+        <%= button_to chats_path,
+          method: :post,
+          class: "sa-btn sa-btn--primary sa-btn--lg" do %>
+          Démarrer une analyse
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 </div>
