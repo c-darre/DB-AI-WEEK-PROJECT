@@ -11,10 +11,20 @@
   <% else %>
     <ul class="list-group">
       <% @chats.each do |chat| %>
+        <% photo = chat.messages.find { |m| m.photo.attached? }&.photo %>
         <li class="list-group-item d-flex justify-content-between align-items-center mb-2 shadow-sm rounded">
-          <div>
-            <h5 class="mb-1"><%= chat.title || "Nouvelle conversation" %></h5>
-            <small class="text-muted">Créé le <%= chat.created_at.strftime("%d/%m/%Y à %H:%M") %></small>
+          <div class="d-flex align-items-center gap-3">
+            <% if photo %>
+              <%= image_tag photo, style: "width: 64px; height: 64px; object-fit: cover; border-radius: 8px;" %>
+            <% else %>
+              <div style="width: 64px; height: 64px; background: #e9ecef; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                <span class="text-muted" style="font-size: 24px;">👟</span>
+              </div>
+            <% end %>
+            <div>
+              <h5 class="mb-1"><%= chat.title || "Nouvelle conversation" %></h5>
+              <small class="text-muted">Créé le <%= chat.created_at.strftime("%d/%m/%Y à %H:%M") %></small>
+            </div>
           </div>
 
           <%= link_to "Ouvrir", chat_path(chat), class: "btn btn-outline-primary btn-sm" %>
