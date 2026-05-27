@@ -1,2 +1,30 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<% if user_signed_in? %>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8 text-center">
+        <h2 class="mb-4">Que souhaitez-vous faire authentifier aujourd'hui ?</h2>
+
+        <div id="new_message_container" class="text-start">
+          <%= simple_form_for [@chat, @message] do |f| %>
+            <%= f.input :content, label: false, placeholder: "Ex: Peux-tu analyser les coutures de cette Jordan 4 ?" %>
+
+            <div class="d-flex justify-content-end mt-2">
+              <%= f.button :submit, 'Lancer l\'analyse', class: 'btn btn-primary' %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<% else %>
+  <div class="container mt-5 text-center">
+    <h1 class="display-4 fw-bold">Bienvenue sur SneakerAI</h1>
+    <p class="lead mt-3">L'Intelligence Artificielle au service de l'authentification de vos sneakers.</p>
+
+    <div class="mt-4">
+      <%= link_to "Se connecter", new_user_session_path, class: "btn btn-primary btn-lg mx-2" %>
+      <%= link_to "Créer un compte", new_user_registration_path, class: "btn btn-outline-primary btn-lg mx-2" %>
+    </div>
+  </div>
+<% end %>

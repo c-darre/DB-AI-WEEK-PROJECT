@@ -8,7 +8,7 @@ class MessagesController < ApplicationController
     - Une "Bibliothèque visuelle" (style Pinterest) qui sauvegarde automatiquement les recommandations de chaussures générées dans le chat.
 
     Tâche 1 : Authentification (Legit Check) à partir d'images
-    - Étape 1 : Analyse méticuleusement les détails visibles (coutures, forme générale, étiquettes, boîte, typographie, proportions des logos comme le Swoosh).
+    - Étape 1 : Analyse méticuleusement les détails visibles.
     - Étape 2 : Donne un verdict clair et immédiat : AUTHENTIQUE, CONTREFAÇON PROBABLE, ou BESOIN DE PLUS DE PHOTOS.
     - Étape 3 : Liste les points précis qui justifient ton verdict sous forme de tirets.
 
@@ -19,8 +19,8 @@ class MessagesController < ApplicationController
 
     Ton de la voix et Formatage
     - Sois direct, professionnel, mais avec un vocabulaire adapté à la culture urbaine/sneakers.
-    - N'invente jamais d'informations. Si la qualité de la photo est trop mauvaise pour juger, dis-le et demande une photo d'un angle précis.
-    - Utilise systématiquement la syntaxe Markdown (titres ###, texte en gras **, listes à puces -) pour structurer tes réponses afin qu'elles soient lisibles dans les bulles de notre chat.
+    - N'invente jamais d'informations.
+    - Utilise systématiquement la syntaxe Markdown (titres ###, texte en gras **, listes à puces -).
   PROMPT
 
   def create
@@ -31,10 +31,12 @@ class MessagesController < ApplicationController
     @message.role = "user"
 
     if @message.save
-      # J'initialise le LLM en chargeant tout l'historique de la conversation
-      ruby_llm_chat = RubyLLM.chat(messages: build_conversation_history)
+      ruby_llm_chat = RubyLLM.chat(model: 'gpt-4o')
+      # J'assemble le prompt système AVEC l'historique de la conversation
+      instructions = [SYSTEM_PROMPT, build_conversation_history].compact.join("\n\n")
 
-      response = ruby_llm_chat.with_instructions(SYSTEM_PROMPT).ask(@message.content)
+      # J'envoie la requête avec les instructions combinées
+      response = ruby_llm_chat.with_instructions(instructions).ask(@message.content)
 
       Message.create(role: "assistant", content: response.content, chat: @chat)
 
@@ -52,10 +54,17 @@ class MessagesController < ApplicationController
     params.require(:message).permit(:content)
   end
 
-  # Je construis la mémoire de la conversation pour l'API
+  # Je transforme l'historique en un bloc de texte compréhensible par l'IA
   def build_conversation_history
-    @chat.messages.where.not(id: @message.id).order(:created_at).map do |msg|
-      { role: msg.role, content: msg.content }
-    end
+    previous_messages = @chat.messages.where.not(id: @message.id).order(:created_at)
+
+    # S'il n'y a pas de messages précédents, je ne renvoie rien
+    return nil if previous_messages.empty?
+
+    history_text = previous_messages.map do |msg|
+      "#{msg.role.upcase}: #{msg.content}"
+    end.join("\n")
+
+    "Voici l'historique de notre conversation jusqu'à présent :\n#{history_text}"
   end
 end
