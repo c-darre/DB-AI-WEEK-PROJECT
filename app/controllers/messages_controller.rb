@@ -33,7 +33,7 @@ class MessagesController < ApplicationController
     if @message.save
       ruby_llm_chat = RubyLLM.chat(model: 'gpt-4o')
       # J'assemble le prompt système AVEC l'historique de la conversation
-      instructions = [SYSTEM_PROMPT, build_conversation_history].compact.join("\n\n")
+      instructions = [SYSTEM_PROMPT].compact.join("\n\n")
 
       # J'envoie la requête avec les instructions combinées
       response = ruby_llm_chat.with_instructions(instructions).ask(@message.content)
@@ -54,17 +54,9 @@ class MessagesController < ApplicationController
     params.require(:message).permit(:content)
   end
 
-  # Je transforme l'historique en un bloc de texte compréhensible par l'IA
   def build_conversation_history
-    previous_messages = @chat.messages.where.not(id: @message.id).order(:created_at)
-
-    # S'il n'y a pas de messages précédents, je ne renvoie rien
-    return nil if previous_messages.empty?
-
-    history_text = previous_messages.map do |msg|
-      "#{msg.role.upcase}: #{msg.content}"
-    end.join("\n")
-
-    "Voici l'historique de notre conversation jusqu'à présent :\n#{history_text}"
+    @chat.messages.each do |message|
+      @ruby_llm_chat.add_message(message)
+    end
   end
 end
