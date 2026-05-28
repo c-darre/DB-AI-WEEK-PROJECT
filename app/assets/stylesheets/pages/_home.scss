@@ -1,1 +1,25 @@
 // Specific CSS for your home-page
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+
+body {
+  background: #e0baff;
+  background: radial-gradient(circle, rgba(224, 186, 255, 1) 0%, rgba(171, 255, 186, 1) 100%);
+}
+
+h1, h2 {
+  font-family: "Inter", sans-serif;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+}
+
+h3, h4 {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+btn {
+  font-family: "Inter", sans-serif;
+}
