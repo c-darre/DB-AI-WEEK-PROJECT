@@ -1,0 +1,35 @@
+  <div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <h2 class="mb-4"><%= @chat.title || "Nouvelle discussion" %></h2>
+
+      <div id="new_message_container" class="text-start">
+        <div id="messages">
+          <% @chat.messages.each do |message| %>
+            <% if message.role == "user" %>
+              <div class="d-flex justify-content-end mb-2">
+                <div class="bg-white p-3 rounded-pill">
+                  <%= message.content %>
+                </div>
+              </div>
+            <% elsif message.role == "assistant" %>
+              <div class="d-flex justify-content-start mb-5">
+                <div class="p-3">
+                  <%= raw(render_markdown(message.content)) %>                </div>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+        <%= simple_form_for [@chat, @message] do |f| %>
+          <%= f.input :content, label: false, placeholder: "Ex: Peux-tu analyser les coutures de cette Jordan 4 ?", as: :string %>
+          <%= f.input :photo, as: :file %>
+          <div class="d-flex justify-content-end mt-2">
+            <%= f.button :submit, 'Lancer l\'analyse', class: 'btn btn-primary' %>
+          </div>
+
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
