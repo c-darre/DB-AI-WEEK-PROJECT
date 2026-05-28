@@ -29,15 +29,22 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params)
     @message.chat = @chat
     @message.role = "user"
-    @message.photo.attach(params[:photo])
 
     if @message.save
       ruby_llm_chat = RubyLLM.chat(model: 'gpt-4o')
-      # J'assemble le prompt système AVEC l'historique de la conversation
-      instructions = [SYSTEM_PROMPT].compact.join("\n\n")
 
-      # J'envoie la requête avec les instructions combinées
-      response = ruby_llm_chat.with_instructions(instructions).ask(@message.content)
+      # J'assemble le prompt système AVEC l'historique de la conversation
+      instructions = [SYSTEM_PROMPT, build_conversation_history].compact.join("\n\n")
+
+      # Si l'utilisateur a uploadé une photo, on l'envoie à l'IA
+      if @message.photo.attached?
+        response = ruby_llm_chat.with_instructions(instructions).ask(
+          @message.content,
+          with: { image: @message.photo.url }
+        )
+      else
+        response = ruby_llm_chat.with_instructions(instructions).ask(@message.content)
+      end
 
       Message.create(role: "assistant", content: response.content, chat: @chat)
 
@@ -52,12 +59,19 @@ class MessagesController < ApplicationController
   private
 
   def message_params
+    # La photo est bien autorisée ici, pas besoin de .attach manuel
     params.require(:message).permit(:content, :photo)
   end
 
+  # J'ai corrigé cette méthode pour qu'elle renvoie proprement l'historique en texte
   def build_conversation_history
-    @chat.messages.each do |message|
-      @ruby_llm_chat.add_message(message)
-    end
+    previous_messages = @chat.messages.where.not(id: @message.id).order(:created_at)
+    return nil if previous_messages.empty?
+
+    history_text = previous_messages.map do |msg|
+      "#{msg.role.upcase}: #{msg.content}"
+    end.join("\n")
+
+    "Voici l'historique de notre conversation jusqu'à présent :\n#{history_text}"
   end
 end
