@@ -1,6 +1,9 @@
 class Chat < ApplicationRecord
   belongs_to :user
   has_many :messages, dependent: :destroy
+  has_many :recommendations, dependent: :destroy
+
+  DEFAULT_TITLE = "Untitled"
 
   # Le prompt IA dédié uniquement à la création du titre
   TITLE_PROMPT = <<~PROMPT
@@ -9,7 +12,7 @@ class Chat < ApplicationRecord
 
   def generate_title_from_first_message
     # On évite de regénérer le titre s'il a déjà été personnalisé
-    return unless title == "Untitled" || title == "Nouvelle analyse" || title.blank?
+    return unless title == DEFAULT_TITLE || title == "Nouvelle analyse" || title.blank?
 
     # On récupère le tout premier message envoyé par l'utilisateur
     first_user_message = messages.where(role: "user").order(:created_at).first

@@ -81,4 +81,5 @@ group :test do
   gem "selenium-webdriver"
 end
 
+gem "ruby_llm", "~> 1.15"
 gem "cloudinary"
