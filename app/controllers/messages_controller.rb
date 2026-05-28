@@ -38,6 +38,8 @@ class MessagesController < ApplicationController
 
       # J'envoie la requête avec les instructions combinées
       response = ruby_llm_chat.with_instructions(instructions).ask(@message.content)
+      response = chat.ask "Describe this image.", with: { image: "tmp/lewagon-student.png" }
+puts response.content
 
       Message.create(role: "assistant", content: response.content, chat: @chat)
 
