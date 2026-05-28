@@ -27,3 +27,7 @@ $border-radius-xl:            .5rem;
 $border-radius-xxl:           1rem;
 
 // Override other variables below!
+@import "bootstrap/functions";
+@import "bootstrap/variables";
+
+$theme-colors: map-merge($theme-colors, ( "magic": $magic ));

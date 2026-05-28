@@ -48,7 +48,7 @@ gem "sassc-rails"
 
 gem "devise"
 
-gem "ruby_llm", "~> 1.2.0"
+# gem "ruby_llm", "~> 1.2.0"
 
 # render markdown
 gem "kramdown"
