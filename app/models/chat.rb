@@ -18,6 +18,15 @@ class Chat < ApplicationRecord
     first_user_message = messages.where(role: "user").order(:created_at).first
     return if first_user_message.nil?
 
+# --- INJECTION MANUELLE ---
+    # On force la création de l'instance avec la clé lue directement depuis ENV
+    # Si ENV est vide ici, le problème est dans le chargement de ton .env
+    token = ENV['GITHUB_TOKEN']
+
+    # Si le token est vide, on lève une erreur explicite pour comprendre
+    raise "GITHUB_TOKEN est vide dans ENV !" if token.blank?
+
+
     # On demande à l'IA de générer le titre avec le modèle rapide
     # (Pas besoin du modèle vision gpt-4o juste pour résumer du texte)
     response = RubyLLM.chat.with_instructions(TITLE_PROMPT).ask(first_user_message.content)
