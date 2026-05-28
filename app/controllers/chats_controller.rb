@@ -7,6 +7,20 @@ class ChatsController < ApplicationController
   def index
     # Je récupère uniquement les chats du "current_user" (l'utilisateur connecté)
     @chats = current_user.chats.order(created_at: :desc)
+    @chats = current_user.chats
+
+  if params[:query].present?
+    @chats = @chats
+      .left_joins(:messages)
+      .where(
+        "chats.title ILIKE :query OR messages.content ILIKE :query",
+        query: "%#{params[:query]}%"
+      )
+      .distinct
+  end
+
+  @chats = @chats.order(created_at: :desc)
+end
   end
 
   # Je prépare l'action show pour Alicia qui gère l'affichage d'un chat unique
@@ -26,6 +40,4 @@ class ChatsController < ApplicationController
       render "chats/show", status: :unprocessable_entity
     end
   end
-
-end
 

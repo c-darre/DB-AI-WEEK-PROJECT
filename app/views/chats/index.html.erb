@@ -10,6 +10,21 @@
     </div>
   <% else %>
     <ul class="list-group">
+      <%= form_with url: chats_path, method: :get, local: true, class: "mb-4" do %>
+
+  <div class="input-group">
+
+    <%= text_field_tag :query,
+      params[:query],
+      placeholder: "Rechercher dans l'historique...",
+      class: "form-control" %>
+
+    <%= submit_tag "Rechercher",
+      class: "btn btn-primary" %>
+
+  </div>
+
+<% end %>
       <% @chats.each do |chat| %>
         <% photo = chat.messages.find { |m| m.photo.attached? }&.photo %>
         <li class="list-group-item d-flex justify-content-between align-items-center mb-2 shadow-sm rounded">
@@ -21,7 +36,7 @@
                 <span class="text-muted" style="font-size: 24px;">👟</span>
               </div>
             <% end %>
-            
+
             <div>
               <h5 class="mb-1"><%= chat.title || "Nouvelle conversation" %></h5>
               <small class="text-muted">Créé le <%= chat.created_at.strftime("%d/%m/%Y à %H:%M") %></small>
