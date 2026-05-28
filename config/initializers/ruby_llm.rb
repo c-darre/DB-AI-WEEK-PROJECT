@@ -1,5 +1,4 @@
 RubyLLM.configure do |config|
-  config.default_model = 'openai/gpt-4.1'
-  config.openai_api_key = ENV['GITHUB_TOKEN'] # Key for your endpoint
-  config.openai_api_base = "https://models.inference.ai.azure.com" # Your endpoint
+  config.openai_api_key = ENV['GITHUB_TOKEN']
+  config.openai_api_base = "https://models.inference.ai.azure.com"
 end
