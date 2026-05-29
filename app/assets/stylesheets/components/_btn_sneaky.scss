@@ -12,6 +12,11 @@
     background-color: #B300FF;
     color: white;
   }
+
+  &:active{
+    background-color: #7E70FF;
+    color: white;
+  }
 }
 
 .btn_sneaky_outline {
@@ -23,11 +28,16 @@
   border-color: #332988;
   border-width: 2px;
   color: #332988;
-  padding: 10px 20px;
+  padding: 15px 30px;
 
   &:hover{
-    background-color: #332988;
-    color: white;
+  border-color: #B300FF;
+  color: #B300FF;
+  }
+
+  &:active{
+  border-color: #7E70FF;
+  color: #7E70FF;
   }
 }
 
