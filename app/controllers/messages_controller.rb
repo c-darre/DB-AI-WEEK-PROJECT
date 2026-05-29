@@ -126,7 +126,7 @@ class MessagesController < ApplicationController
       end
     end
 
-    assistant_message.save
+    @assistant_message.save
   end
 
   def update_message_and_broadcast(message, content)

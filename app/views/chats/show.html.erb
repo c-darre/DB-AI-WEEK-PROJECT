@@ -7,7 +7,7 @@
       <div class="text-start">
         <%# 1. La zone des messages (bien séparée du formulaire) avec tri obligatoire %>
         <div id="messages">
-          <%= render @chat.messages.order(created_at: :asc) %>
+          <%= render "messages/messages", messages: @chat.messages.order(created_at: :asc) %>
         </div>
 
         <%# 2. La zone du formulaire %>
@@ -16,7 +16,7 @@
         </div>
       </div>
 
-    </div>
+    </div>  
   </div>
 </div>
 
