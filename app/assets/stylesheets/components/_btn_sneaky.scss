@@ -14,6 +14,23 @@
   }
 }
 
+.btn_sneaky_outline {
+  border-radius: 50px;
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+  text-transform: uppercase;
+  border-color: #332988;
+  border-width: 2px;
+  color: #332988;
+  padding: 10px 20px;
+
+  &:hover{
+    background-color: #332988;
+    color: white;
+  }
+}
+
 .btn_sneaky_inline {
   border-radius: 50px;
   font-family: "Inter", sans-serif;
