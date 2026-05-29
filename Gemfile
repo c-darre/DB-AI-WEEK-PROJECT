@@ -19,7 +19,7 @@ gem "simple_form", github: "heartcombo/simple_form"
 # IA & Stockage
 gem "ruby_llm", "~> 1.15"
 gem "cloudinary"
-gem "image_processing", "~> 1.2"
+gem "image_processing", "~> 2.0"
 
 gem "kramdown"
 gem "rouge"
