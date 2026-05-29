@@ -1,4 +1,22 @@
 
 
+.msg-bubble {
+  border-radius: 5px;
+  background-color: white;
+  padding: 20px;
+  margin: 5px;
+  box-shadow: 0px 1px 2.5px 0px #332988;
 
-box-shadow: 2px 2px 2px 1px rgb(0 0 0 / 20%);
+  h4, h3 {
+    color: #332988;
+    font-size: 20px;
+  }
+}
+
+.msg-bubble-user {
+  border-radius: 5px;
+  background-color: #edebff;
+  padding: 20px;
+  margin: 5px;
+  box-shadow: 0px 1px 2.5px 0px #332988;
+}
