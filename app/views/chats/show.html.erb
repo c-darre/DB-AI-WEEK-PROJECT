@@ -23,8 +23,15 @@
 <script>
   document.getElementById('camera_input').addEventListener('change', function() {
     const mainInput = document.getElementById('main_photo_input');
-    const dt = new DataTransfer();
-    dt.items.add(this.files[0]);
-    mainInput.files = dt.files;
+    try {
+      const dt = new DataTransfer();
+      dt.items.add(this.files[0]);
+      mainInput.files = dt.files;
+    } catch(e) {
+      // Fallback : cache l'input fichier et utilise directement camera_input
+      mainInput.style.display = 'none';
+      mainInput.removeAttribute('name');
+      this.setAttribute('name', 'message[photo]');
+    }
   });
 </script>
