@@ -1,9 +1,6 @@
 class Chat < ApplicationRecord
   belongs_to :user
   has_many :messages, dependent: :destroy
-  has_many :recommendations, dependent: :destroy
-
-  DEFAULT_TITLE = "Untitled"
 
   # Le prompt IA dédié uniquement à la création du titre
   TITLE_PROMPT = <<~PROMPT
@@ -12,11 +9,20 @@ class Chat < ApplicationRecord
 
   def generate_title_from_first_message
     # On évite de regénérer le titre s'il a déjà été personnalisé
-    return unless title == DEFAULT_TITLE || title == "Nouvelle analyse" || title.blank?
+    return unless title == "Untitled" || title == "Nouvelle analyse" || title.blank?
 
     # On récupère le tout premier message envoyé par l'utilisateur
     first_user_message = messages.where(role: "user").order(:created_at).first
     return if first_user_message.nil?
+
+# --- INJECTION MANUELLE ---
+    # On force la création de l'instance avec la clé lue directement depuis ENV
+    # Si ENV est vide ici, le problème est dans le chargement de ton .env
+    token = ENV['GITHUB_TOKEN']
+
+    # Si le token est vide, on lève une erreur explicite pour comprendre
+    raise "GITHUB_TOKEN est vide dans ENV !" if token.blank?
+
 
     # On demande à l'IA de générer le titre avec le modèle rapide
     # (Pas besoin du modèle vision gpt-4o juste pour résumer du texte)

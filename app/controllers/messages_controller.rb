@@ -41,7 +41,6 @@ class MessagesController < ApplicationController
 
       # J'assemble le prompt système AVEC l'historique de la conversation
       instructions = [SYSTEM_PROMPT, build_conversation_history].compact.join("\n\n")
-
       # Si l'utilisateur a uploadé une photo, on l'envoie à l'IA
       if @message.photo.attached?
         response = ruby_llm_chat.with_instructions(instructions).ask(
