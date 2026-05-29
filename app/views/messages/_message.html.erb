@@ -1,0 +1,29 @@
+<%# app/views/messages/_message.html.erb %>
+<div id="<%= dom_id(message) %>">
+
+  <%# --- MESSAGE DE L'UTILISATEUR --- %>
+  <% if message.role == "user" %>
+    <div class="d-flex justify-content-end">
+      <%# Ajout de la classe "rounded-pill" de l'équipe %>
+      <div class="msg-bubble-user">
+        <% if message.photo.attached? %>
+          <%= image_tag message.photo.url, class: "img-fluid rounded mb-2", style: "max-width: 200px; display: block;" %>
+        <% end %>
+        <%= message.content %>
+      </div>
+    </div>
+
+  <%# --- MESSAGE DE L'ASSISTANT IA --- %>
+  <% elsif message.role == "assistant" %>
+    <div class="d-flex justify-content-start">
+      <%# Ajout de la classe "bg-white p-3 rounded-4" de l'équipe %>
+      <div class="msg-bubble" style="max-width: 85%;">
+
+        <% content_formate = message.content.to_s.gsub("###", "\n\n### ") %>
+
+        <%= message.content.present? ? raw(render_markdown(content_formate)) : "..." %>
+      </div>
+    </div>
+  <% end %>
+
+</div>

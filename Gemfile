@@ -48,7 +48,7 @@ end
 group :development do
   gem "web-console"
   # Outils essentiels pour debugger l'IA et les outils
-  gem "httplog"
+  # gem "httplog"
   gem "pry-byebug"
   gem "pry-rails"
 end
