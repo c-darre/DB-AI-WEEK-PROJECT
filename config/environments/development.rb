@@ -5,15 +5,18 @@ Rails.application.configure do
 
   # Make code changes take effect immediately without server restart.
   config.enable_reloading = true
-
   # Do not eager load code on boot.
   config.eager_load = false
+
+  config.hosts << "c7e6-2a0d-e487-229f-25a3-5000-6065-acfe-8ce1.ngrok-free.app"
 
   # Show full error reports.
   config.consider_all_requests_local = true
 
   # Enable server timing.
   config.server_timing = true
+
+  config.hosts << "wronged-headscarf-sweep.ngrok-free.dev"
 
   # Enable/disable Action Controller caching. By default Action Controller caching is disabled.
   # Run rails dev:cache to toggle Action Controller caching.

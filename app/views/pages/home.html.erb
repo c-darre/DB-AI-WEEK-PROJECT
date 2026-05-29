@@ -11,7 +11,29 @@
             <%= hidden_field_tag :source, 'home' %>
 
             <%= f.input :content, label: false, placeholder: "Ex: Peux-tu analyser les coutures de cette Jordan 4 ?" %>
-            <%= f.input :photo, as: :file %>
+
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <%= f.input :photo, as: :file, wrapper: false, label: false %>
+
+              <span class="text-muted">ou</span>
+
+              <input type="hidden" name="photo_base64" id="photo_base64">
+              <button type="button" id="open-camera-btn" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 55px; height: 55px; border-radius: 16px; border: 1.5px solid #e0e0e0; background: white; cursor: pointer; color: #aaa; font-size: 11px; gap: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="6" width="20" height="15" rx="3"/>
+                  <circle cx="12" cy="13" r="4"/>
+                  <path d="M8 6l1.5-3h5L16 6"/>
+                </svg>
+                Photo
+              </button>
+              <button type="button" id="snap-btn"  style="display:none;">📸 Prendre</button>
+              <button type="button" id="retry-btn" style="display:none;">🔄 Reprendre</button>
+            </div>
+
+            <video id="camera" autoplay playsinline style="display:none; width:100%;"></video>
+            <canvas id="canvas" style="display:none;"></canvas>
+            <img id="preview" style="display:none; width:100%;" />
+
             <div class="d-flex justify-content-end mt-2">
               <%= f.button :submit, 'Lancer l\'analyse', class: 'btn btn_sneaky' %>
             </div>
@@ -25,10 +47,59 @@
   <div class="container mt-5 text-center">
     <h1 class="display-4">Bienvenue sur SneakerAI</h1>
     <p class="lead mt-3">L'Intelligence Artificielle au service de l'authentification de vos sneakers.</p>
-
     <div class="mt-4">
       <%= link_to "Se connecter", new_user_session_path, class: "btn btn_sneaky" %>
       <%= link_to "Créer un compte", new_user_registration_path, class: "btn btn_sneaky_outline" %>
     </div>
   </div>
 <% end %>
+
+<script>
+  const video       = document.getElementById("camera");
+  const canvas      = document.getElementById("canvas");
+  const preview     = document.getElementById("preview");
+  const openBtn     = document.getElementById("open-camera-btn");
+  const snapBtn     = document.getElementById("snap-btn");
+  const retryBtn    = document.getElementById("retry-btn");
+  const hiddenField = document.getElementById("photo_base64");
+  let stream = null;
+
+  openBtn.addEventListener("click", () => {
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+      .then(s => {
+        stream = s;
+        video.srcObject       = stream;
+        video.style.display   = "block";
+        openBtn.style.display = "none";
+        snapBtn.style.display = "inline";
+      })
+      .catch(err => alert("Caméra non accessible : " + err.message));
+  });
+
+  snapBtn.addEventListener("click", () => {
+    canvas.width  = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext("2d").drawImage(video, 0, 0);
+    const dataUrl = canvas.toDataURL("image/jpeg", 0.8);
+    hiddenField.value      = dataUrl;
+    preview.src            = dataUrl;
+    stream.getTracks().forEach(track => track.stop());
+    video.style.display    = "none";
+    preview.style.display  = "block";
+    snapBtn.style.display  = "none";
+    retryBtn.style.display = "inline";
+  });
+
+  retryBtn.addEventListener("click", () => {
+    hiddenField.value      = "";
+    preview.style.display  = "none";
+    retryBtn.style.display = "none";
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+      .then(s => {
+        stream = s;
+        video.srcObject       = stream;
+        video.style.display   = "block";
+        snapBtn.style.display = "inline";
+      });
+  });
+</script>
