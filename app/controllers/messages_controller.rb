@@ -36,6 +36,16 @@ class MessagesController < ApplicationController
     @message.chat = @chat
     @message.role = "user"
 
+    if params[:photo_base64].present?
+      data = params[:photo_base64].sub(/\Adata:image\/\w+;base64,/, "")
+      blob = ActiveStorage::Blob.create_and_upload!(
+    io: StringIO.new(Base64.decode64(data)),
+    filename: "photo_#{Time.now.to_i}.jpg",
+    content_type: "image/jpeg"
+    )
+    @message.photo.attach(blob)
+  end
+
     if @message.save
       ruby_llm_chat = RubyLLM.chat(model: 'gpt-4o')
 
