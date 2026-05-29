@@ -1,0 +1,33 @@
+<%# app/views/messages/_message.html.erb %>
+<div id="<%= dom_id(message) %>">
+
+  <%# --- MESSAGE DE L'UTILISATEUR --- %>
+  <% if message.role == "user" %>
+    <div class="d-flex justify-content-end mb-2">
+      <div class="bg-white p-3 rounded-3 shadow-sm">
+
+        <% if message.photo.attached? %>
+          <%# CORRECTION 1 : On ajoute .url pour avoir le lien complet de l'image même via Turbo %>
+          <%= image_tag message.photo.url, class: "img-fluid rounded mb-2", style: "max-width: 200px; display: block;" %>
+        <% end %>
+
+        <%= message.content %>
+      </div>
+    </div>
+
+  <%# --- MESSAGE DE L'ASSISTANT IA --- %>
+  <% elsif message.role == "assistant" %>
+    <div class="d-flex justify-content-start mb-5">
+      <div class="p-3 bg-light rounded-3 shadow-sm" style="max-width: 85%;">
+
+        <%# CORRECTION 2 : On force des sauts de ligne autour des ### au cas où l'IA les oublierait %>
+        <% content_formate = message.content.to_s.gsub("###", "\n\n### ") %>
+
+        <%# On affiche '...' si le contenu est vide (pendant que l'IA réfléchit) %>
+        <%= message.content.present? ? raw(render_markdown(content_formate)) : "..." %>
+
+      </div>
+    </div>
+  <% end %>
+
+</div>
