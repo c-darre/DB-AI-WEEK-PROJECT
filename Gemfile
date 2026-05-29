@@ -20,6 +20,7 @@ gem "simple_form", github: "heartcombo/simple_form"
 gem "ruby_llm", "~> 1.15"
 gem "cloudinary"
 gem "image_processing", "~> 1.2"
+
 gem "kramdown"
 gem "rouge"
 gem "kramdown-parser-gfm"
