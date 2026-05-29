@@ -1,7 +1,7 @@
 <div class="container mt-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Mes anciennes conversations</h2>
-    <%= button_to "Ouvrir une nouvelle conversation", chats_path, method: :post, class: "btn btn-primary" %>
+    <%= button_to "Ouvrir une nouvelle conversation", chats_path, method: :post, class: "btn btn_sneaky" %>
   </div>
 
   <% if @chats.empty? %>
@@ -9,6 +9,13 @@
       Vous n'avez pas encore d'historique.
     </div>
   <% else %>
+    <%= form_with url: chats_path, method: :get, local: true, class: "mb-4" do %>
+      <div class="input-group">
+        <%= text_field_tag :query, params[:query], placeholder: "Rechercher dans l'historique...", class: "form-control" %>
+        <%= submit_tag "Rechercher", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+
     <ul class="list-group">
       <% @chats.each do |chat| %>
         <% photo = chat.messages.find { |m| m.photo.attached? }&.photo %>
@@ -21,13 +28,14 @@
                 <span class="text-muted" style="font-size: 24px;">👟</span>
               </div>
             <% end %>
+
             <div>
               <h5 class="mb-1"><%= chat.title || "Nouvelle conversation" %></h5>
               <small class="text-muted">Créé le <%= chat.created_at.strftime("%d/%m/%Y à %H:%M") %></small>
             </div>
           </div>
 
-          <%= link_to "Ouvrir", chat_path(chat), class: "btn btn-outline-primary btn-sm" %>
+          <%= link_to "Ouvrir", chat_path(chat), class: "btn btn_sneaky_inline" %>
         </li>
       <% end %>
     </ul>
