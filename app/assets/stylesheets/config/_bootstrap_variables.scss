@@ -7,7 +7,7 @@
 // General style
 $font-family-sans-serif: $body-font;
 $headings-font-family:   $headers-font;
-$body-bg:                $light-gray;
+// $body-bg:                $light-gray;
 $font-size-base:         1rem;
 
 // Colors
@@ -17,6 +17,7 @@ $success:    $green;
 $info:       $yellow;
 $danger:     $red;
 $warning:    $orange;
+$magic:      $magenta;
 
 // Buttons & inputs' radius
 $border-radius-sm:            .0625rem;
@@ -26,3 +27,7 @@ $border-radius-xl:            .5rem;
 $border-radius-xxl:           1rem;
 
 // Override other variables below!
+@import "bootstrap/functions";
+@import "bootstrap/variables";
+
+$theme-colors: map-merge($theme-colors, ( "magic": $magic ));
