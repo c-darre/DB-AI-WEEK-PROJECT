@@ -7,13 +7,14 @@
   background-color: #332988;
   color: white;
   padding: 15px 30px;
+  margin: 5px;
 
   &:hover{
     background-color: #B300FF;
     color: white;
   }
 
-  &:active{
+  &:focus{
     background-color: #7E70FF;
     color: white;
   }
@@ -22,17 +23,20 @@
 .btn_sneaky_outline {
   border-radius: 50px;
   font-family: "Inter", sans-serif;
-  font-weight: 700;
+  font-weight: 900;
   font-style: italic;
   text-transform: uppercase;
   border-color: #332988;
   border-width: 2px;
   color: #332988;
+  background-color: white;
   padding: 15px 30px;
+  margin: 5px;
 
   &:hover{
   border-color: #B300FF;
   color: #B300FF;
+  background-color: white;
   }
 
   &:active{
