@@ -1,0 +1,6 @@
+<%# app/views/messages/create.turbo_stream.erb %>
+<%# 1. On remplace la liste des messages pour inclure le message utilisateur que tu viens de poster %>
+
+<%= turbo_stream.update "new_message_container" do %>
+  <%= render "messages/form", chat: @chat, message: Message.new %>
+<% end %>
